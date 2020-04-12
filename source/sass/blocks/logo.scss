@@ -1,0 +1,33 @@
+.logo {
+  display: flex;
+  justify-content: space-between;
+  width: 202px;
+}
+
+.logo img {
+  width: 52px;
+  height: 52px;
+}
+
+.logo__text {
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+  padding-top: 5px;
+
+
+  font-family: $roboto-condensed-font;
+  font-size: 25px;
+  line-height: 29px;
+  font-weight: bold;
+  color: #ffffff;
+}
+
+.logo__slogan {
+  font-family: $roboto-font;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 14px;
+  color: #788891;
+}

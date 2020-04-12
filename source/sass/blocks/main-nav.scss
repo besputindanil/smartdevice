@@ -1,0 +1,99 @@
+.main-nav {
+  display: flex;
+  align-items: center;
+  margin-bottom: 170px;
+}
+
+.main-nav__menu {
+  position: relative;
+
+  width: 37px;
+  height: 13px;
+  padding: 0;
+
+  background-color: transparent;
+  cursor: pointer;
+  border: none;
+
+  &::before {
+    content: "";
+
+    position: absolute;
+    top: 0;
+    left: 0;
+
+    width: 37px;
+    height: 1px;
+
+    background-color: #ffffff;
+    box-shadow: 0 11px 00 #ffffff;
+  }
+}
+
+.main-nav__list {
+  display: flex;
+  width: 441px;
+  margin: 0;
+  margin-left: auto;
+  margin-right: 30px;
+  padding: 0;
+
+  list-style: none;
+}
+
+.main-nav__link {
+  position: relative;
+
+  display: block;
+  padding-left: 39px;
+
+  font-size: 16px;
+  line-height: 18px;
+  color: #ffffff;
+
+  &::before {
+    content: "";
+
+    position: absolute;
+    top: 0;
+    left: 0;
+
+    width: 18px;
+    height: 18px;
+
+    background-image: url("../img/mail.svg");
+    background-position: 0;
+    background-repeat: no-repeat;
+  }
+
+  &--mail {
+    margin-right: 88px;
+
+    &::before {
+      width: 19px;
+      height: 14px;
+
+      background-image: url("../img/mail.svg");
+      background-position: 0;
+      background-repeat: no-repeat;
+    }
+  }
+
+  &--phone::before {
+    width: 18px;
+    height: 18px;
+
+    background-image: url("../img/phone.svg");
+    background-position: 0;
+    background-repeat: no-repeat;
+  }
+}
+
+.main-nav__button {
+  width: 180px;
+
+  font-size: 14px;
+  line-height: 16px;
+
+  border: 1px solid #ffffff;
+}

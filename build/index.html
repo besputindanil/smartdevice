@@ -1,13 +1,50 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>Стартовый шаблон</title>
-  <link rel="stylesheet" href="css/style.css">
+  <title>Smart Device</title>
+  <link rel="stylesheet" href="css/style.min.css">
 </head>
 <body>
-  <h1>Добро пожаловать в Лигу А.</h1>
+  <header class="page-header">
+    <div class="page-header__wrapper">
+      <nav class="main-nav">
+        <a class="page-header__logo logo" href="#">
+          <img src="../img/logo-desktop.svg" width="52" height="52" alt="Smart Device">
+          <p class="logo__text">
+            Smart Device
+            <span class="logo__slogan">умные технологии</span>
+          </p>
+        </a>
+        <button class="main-nav__menu" type="button">
+          <span class="visually-hidden">Открыть меню</span>
+        </button>
+        <ul class="main-nav__list">
+          <li>
+            <a class="main-nav__link main-nav__link--mail" href="mailto:info@sd.ru">info@sd.ru</a>
+          </li>
+          <li>
+            <a class="main-nav__link main-nav__link--phone" href="tel">+7 (495) 000 52 52</a>
+          </li>
+        </ul>
+        <a class="main-nav__button button" href="#">Заказать звонок</a>
+      </nav>
+      <section class="main-screen">
+        <div class="main-screen__info">
+          <h2>Печатные платы</h2>
+          <p>
+            производство и монтаж, поставка комплектующих, блоков и модулей
+          </p>
+          <a class="main-screen__button button">Получить бесплатную консультацию</a>
+          <button class="main-screen__scroll">Скролл вниз</button>
+        </div>
+        <div class="main-screen__image">
+          <img src="../img/bg-intro-banner.png" width="705" height="515" alt="Печатные платы">
+        </div>
+      </section>
+    </div>
+  </header>
 </body>
 </html>
