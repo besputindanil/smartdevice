@@ -2,16 +2,36 @@
   background-color: #1b2d37;
   background-image: url("../img/bg-header-desktop.jpg");
   background-repeat: no-repeat;
-  background-position: 0;
+  background-position: 50% 0;
+  background-size: cover;
+
+  overflow: hidden;
 }
 
 .page-header__wrapper {
-  max-width: 1400px;
+  max-width: 1411px;
   margin: 0 auto;
-  padding-top: 34px;
-  padding-bottom: 108px;
+  padding: 34px 7px 126px 23px;
 }
 
-.page-header__logo {
-  margin-right: 120px;
+@media (max-width: $tablet-width) {
+  .page-header {
+    background-image: url("../img/bg-header-tablet.jpg");
+    background-position: center;
+  }
+
+  .page-header__wrapper {
+    padding: 18px 24px 162px 24px;
+  }
+}
+
+@media (max-width: $mobile-width) {
+  .page-header {
+    background-image: url("../img/bg-header-mobile.jpg");
+    background-position: 50% 0;
+  }
+
+  .page-header__wrapper {
+    padding: 18px 5px 72px 16px;
+  }
 }

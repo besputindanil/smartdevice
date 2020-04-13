@@ -1,6 +1,4 @@
 .button {
-  padding: 15px 24px;
-
   font-family: $roboto-condensed-font;
   font-weight: bold;
   text-align: center;
@@ -10,4 +8,20 @@
 
   box-sizing: border-box;
   border-radius: 5px;
+}
+
+.button__text--mobile {
+  display: none;
+}
+
+@media (max-width: $mobile-width) {
+  .button__text {
+    &--desktop {
+      display: none;
+    }
+
+    &--mobile {
+      display: block;
+    }
+  }
 }

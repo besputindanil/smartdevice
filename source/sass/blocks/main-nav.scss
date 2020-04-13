@@ -4,96 +4,83 @@
   margin-bottom: 170px;
 }
 
-.main-nav__menu {
-  position: relative;
-
-  width: 37px;
-  height: 13px;
-  padding: 0;
-
-  background-color: transparent;
-  cursor: pointer;
-  border: none;
-
-  &::before {
-    content: "";
-
-    position: absolute;
-    top: 0;
-    left: 0;
-
-    width: 37px;
-    height: 1px;
-
-    background-color: #ffffff;
-    box-shadow: 0 11px 00 #ffffff;
-  }
-}
-
 .main-nav__list {
   display: flex;
   width: 441px;
   margin: 0;
   margin-left: auto;
-  margin-right: 30px;
+  margin-right: 38px;
   padding: 0;
 
   list-style: none;
 }
 
-.main-nav__link {
-  position: relative;
+.main-nav__item {
+  margin-right: 88px;
 
-  display: block;
-  padding-left: 39px;
+  &:last-child {
+    margin-right: 0;
+  }
+}
 
+.main-nav__icon {
+  margin-right: 10px;
+
+  vertical-align: middle;
+}
+
+.main-nav__info {
   font-size: 16px;
   line-height: 18px;
   color: #ffffff;
-
-  &::before {
-    content: "";
-
-    position: absolute;
-    top: 0;
-    left: 0;
-
-    width: 18px;
-    height: 18px;
-
-    background-image: url("../img/mail.svg");
-    background-position: 0;
-    background-repeat: no-repeat;
-  }
-
-  &--mail {
-    margin-right: 88px;
-
-    &::before {
-      width: 19px;
-      height: 14px;
-
-      background-image: url("../img/mail.svg");
-      background-position: 0;
-      background-repeat: no-repeat;
-    }
-  }
-
-  &--phone::before {
-    width: 18px;
-    height: 18px;
-
-    background-image: url("../img/phone.svg");
-    background-position: 0;
-    background-repeat: no-repeat;
-  }
 }
 
 .main-nav__button {
   width: 180px;
+  padding: 14px 24px;
 
   font-size: 14px;
   line-height: 16px;
 
   border: 1px solid #ffffff;
+}
+
+@media (max-width: $tablet-width) {
+  .main-nav {
+    margin-bottom: 45px;
+  }
+
+  .main-nav__list {
+    width: 83px;
+    margin-right: 0;
+  }
+
+  .main-nav__item {
+    margin-right: 33px;
+  }
+
+  .main-nav__icon {
+    margin-right: 0;
+
+    &--mail {
+      width: 26px;
+      height: 19px;
+    }
+
+    &--phone {
+      width: 24px;
+      height: 24px;
+    }
+  }
+
+  .main-nav__info,
+  .main-nav__button {
+    display: none;
+  }
+}
+
+@media (max-width: $mobile-width) {
+  .main-nav__item {
+    margin-right: 23px;
+  }
 }
