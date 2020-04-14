@@ -17,7 +17,7 @@
     <div class="page-header__wrapper">
       <nav class="main-nav">
         <a class="page-header__logo logo" href="#">
-          <img class="logo_image" src="../img/logo-desktop.svg" width="52" height="52" alt="Smart Device" >
+          <img class="logo_image" src="img/logo.svg" width="52" height="52" alt="Smart Device" >
           <p class="logo__text">
             Smart Device
             <span class="logo__slogan">умные технологии</span>
@@ -43,7 +43,7 @@
         </ul>
         <a class="main-nav__button button" href="#">Заказать звонок</a>
       </nav>
-      <section class="main-screen">
+      <div class="main-screen">
         <div class="main-screen__info">
           <h2>Печатные платы</h2>
           <p>
@@ -57,12 +57,19 @@
         </div>
         <div class="main-screen__image">
           <picture>
-            <source media="(max-width: 767px)" srcset="img/banner-mobile.png">
-            <source media="(max-width: 1023px)" srcset="img/banner-tablet.png">
-            <img src="../img/banner-desktop.png" alt="Печатные платы">
+            <source type="image/webp" media="(max-width: 767px)" srcset="img/banner-mobile@1x.webp 1x, img/banner-mobile@2x.webp 2x">
+            <source type="image/webp" media="(max-width: 1023px)" srcset="img/banner-tablet@1x.webp 1x, img/banner-tablet@2x.webp 2x">
+            <source type="image/webp" srcset="img/banner-desktop@1x.webp 1x, img/banner-desktop@2x.webp 2x">
+
+            <!-- 1х: 294px; 2x: 588px -->
+            <source media="(max-width: 767px)" srcset="img/banner-mobile@1x.png 1x, img/banner-mobile@2x.png 2x">
+            <!-- 1х: 260px; 2x: 520px -->
+            <source media="(max-width: 1023px)" srcset="img/banner-tablet@1x.png 1x, img/banner-tablet@2x.png 2x">
+            <!-- 1х: 705px; 2x: 1410px -->
+            <img src="img/banner-desktop@1x.png" srcset="img/banner-desktop@2x.png 2x" alt="Печатные платы">
           </picture>
         </div>
-      </section>
+      </div>
     </div>
   </header>
 </body>

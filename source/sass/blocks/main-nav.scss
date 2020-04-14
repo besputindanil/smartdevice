@@ -18,6 +18,15 @@
 .main-nav__item {
   margin-right: 88px;
 
+  &:hover {
+    opacity: 0.8;
+  }
+
+  &:active,
+  &:focus {
+    opacity: 1;
+  }
+
   &:last-child {
     margin-right: 0;
   }
@@ -43,6 +52,16 @@
   line-height: 16px;
 
   border: 1px solid #ffffff;
+
+  &:hover,
+  &:focus {
+    background-color: #00b2ff;
+    border: 1px solid #00b2ff;
+  }
+
+  &:active {
+    opacity: 0.8;
+  }
 }
 
 @media (max-width: $tablet-width) {

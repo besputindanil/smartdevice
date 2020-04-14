@@ -64,6 +64,18 @@
 
   background-color: #00b2ff;
   border: 1px solid #00b2ff;
+
+  cursor: pointer;
+
+  &:hover,
+  &:focus {
+    background-color: transparent;
+    border: 1px solid #ffffff;
+  }
+
+  &:active {
+    opacity: 0.8;
+  }
 }
 
 .main-screen__image {
@@ -92,6 +104,15 @@
 
   opacity: 0.5;
   transform: rotate(-90deg);
+
+  &:hover,
+  &:focus {
+    opacity: 0.3;
+  }
+
+  &:active {
+    opacity: 0.5;
+  }
 }
 
 @media (max-width: $tablet-width) {

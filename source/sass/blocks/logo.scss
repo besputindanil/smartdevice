@@ -2,6 +2,15 @@
   display: flex;
   justify-content: space-between;
   width: 202px;
+
+  &:hover,
+  &:focus {
+    opacity: 0.8;
+  }
+
+  &:active {
+    opacity: 1;
+  }
 }
 
 .logo_image {
