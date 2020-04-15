@@ -1,0 +1,58 @@
+.contacts {
+  margin-left: auto;
+}
+
+.contacts__adress {
+  margin: 0;
+}
+
+.contacts__adress,
+.contacts__link {
+  font-size: 15px;
+  line-height: 25px;
+  color: #1b2d37;
+
+  opacity: 0.5;
+
+  &:hover,
+  &:focus {
+    opacity: 0.8;
+  }
+
+  &:active {
+    opacity: 0.5;
+  }
+}
+
+.contacts__list {
+  width: 333px;
+  margin: 0;
+  padding: 0;
+
+  list-style: none;
+}
+
+@media (max-width: $tablet-width) {
+  .contacts {
+    margin-left: 132px;
+  }
+}
+
+@media (max-width: $mobile-width) {
+  .contacts {
+    position: relative;
+
+    width: 100%;
+    margin-left: 0;
+    padding: 29px 14px;
+  }
+
+  .contacts__adress {
+    margin-top: 28px;
+  }
+
+  .contacts__adress,
+  .contacts__list {
+    width: 280px;
+  }
+}
