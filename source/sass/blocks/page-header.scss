@@ -6,6 +6,10 @@
   background-size: cover;
 
   overflow: hidden;
+
+  @media (min-resolution: $retina-dpi), (min-resolution: $retina-dppx) {
+    background-image: url("../img/bg-header-desktop@2x.jpg");
+  }
 }
 
 .page-header__wrapper {

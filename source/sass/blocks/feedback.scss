@@ -1,0 +1,86 @@
+.feedback {
+  background-color: #00b2ff;
+  background-image: url("../img/bg-airplane@1x.png");
+  background-repeat: no-repeat;
+  background-position: center top -59px;
+
+  @media (min-resolution: $retina-dpi), (min-resolution: $retina-dppx) {
+    background-image: url("../img/bg-airplane@2x.jpg");
+  }
+}
+
+.feedback__wrapper {
+  max-width: 570px;
+  margin-left: auto;
+  padding-top: 92px;
+  padding-bottom: 112px;
+}
+
+.feedback__header {
+  margin-left: 10px;
+  margin-bottom: 52px;
+}
+
+.feedback__slogan {
+  margin: 0;
+  margin-bottom: 8px;
+
+  font-family: $roboto-condensed-font;
+  font-size: 36px;
+  line-height: 51px;
+  color: #ffffff;
+}
+
+.feedback__info {
+  margin: 0;
+
+  color: #ffffff;
+}
+
+.feedback__form {
+  margin-left: 10px;
+}
+
+@media (max-width: $tablet-width) {
+  .feedback {
+    background-image: none;
+  }
+
+  .feedback__wrapper {
+    max-width: none;
+    margin-left: 0;
+    padding: 80px 90px 100px 90px;
+  }
+
+  .feedback__slogan {
+    margin-bottom: 16px;
+
+    font-size: 32px;
+    line-height: 45px;
+  }
+
+  .feedback__header,
+  .feedback__form {
+    margin-left: 0;
+  }
+}
+
+@media (max-width: $mobile-width) {
+  .feedback__wrapper {
+    display: flex;
+    flex-direction: column;
+
+    padding: 30px 15px 43px 15px;
+  }
+
+  .feedback__header {
+    margin-bottom: 22px;
+  }
+
+  .feedback__slogan {
+    margin-bottom: 16px;
+
+    font-size: 28px;
+    line-height: 39px;
+  }
+}
