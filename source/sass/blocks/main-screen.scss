@@ -12,7 +12,7 @@
   margin-right: 70px;
 }
 
-.main-screen__info h2 {
+.main-screen__title {
   width: 718px;
   margin-top: 58px;
   margin-bottom: 30px;
@@ -26,7 +26,7 @@
   color: #ffffff;
 }
 
-.main-screen__info p {
+.main-screen__text {
   position: relative;
 
   width: 618px;
@@ -61,6 +61,7 @@
 
   font-size: 16px;
   line-height: 19px;
+  color: #ffffff;
 
   background-color: #00b2ff;
   border: 1px solid #00b2ff;
@@ -120,7 +121,7 @@
     margin-left: 64px;
   }
 
-  .main-screen__info h2 {
+  .main-screen__title {
     width: 470px;
     margin-top: 73px;
 
@@ -128,7 +129,7 @@
     line-height: 70px;
   }
 
-  .main-screen__info p {
+  .main-screen__text {
     width: 370px;
     margin-bottom: 57px;
     padding-left: 48px;
@@ -167,7 +168,7 @@
     margin-left: 0;
   }
 
-  .main-screen__info h2 {
+  .main-screen__title {
     width: 277px;
     margin-top: 185px;
 
@@ -175,7 +176,7 @@
     line-height: 47px;
   }
 
-  .main-screen__info p {
+  .main-screen__text {
     width: 245px;
     margin-bottom: 38px;
 

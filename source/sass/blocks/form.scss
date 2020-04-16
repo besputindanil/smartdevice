@@ -124,7 +124,7 @@ input[type="checkbox"]:focus + label {
 @media (max-width: $tablet-width) {
   .form input[type="text"],
   .form input[type="tel"] {
-    width: calc(50% - 15px);
+    width: 47%;
     margin-bottom: 45px;
   }
 
@@ -138,7 +138,7 @@ input[type="checkbox"]:focus + label {
   }
 
   input[type="checkbox"] + label {
-    width: 267px;
+    width: 46%;
   }
 }
 
@@ -162,5 +162,9 @@ input[type="checkbox"]:focus + label {
     width: 100%;
     margin-right: 0;
     margin-bottom: 30px;
+  }
+
+  input[type="checkbox"] + label {
+    width: 90%;
   }
 }

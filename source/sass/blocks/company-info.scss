@@ -1,0 +1,19 @@
+.company-info {
+  background-image: url("../img/bg-triangle-desktop.svg");
+  background-repeat: no-repeat;
+  background-position: center 0;
+}
+
+@media (max-width: $tablet-width) {
+  .company-info {
+    background-image: url("../img/bg-triangle-tablet.svg");
+    background-position: right 0 bottom 150px;
+  }
+}
+
+@media (max-width: $mobile-width) {
+  .company-info {
+    background-image: url("../img/bg-triangle-mobile.svg");
+    background-position: center bottom 271px;
+  }
+}
