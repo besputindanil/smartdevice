@@ -10,6 +10,10 @@ var userName = popup.querySelector('#name-popup');
 var userPhone = popup.querySelector('#phone-popup');
 var userQuestion = popup.querySelector('#question-popup');
 var form = popup.querySelector('form');
+var promoButton = document.querySelector('.main-screen__button');
+var promoScroll = document.querySelector('.main-screen__scroll');
+var feedback = document.querySelector('.feedback');
+var advantages = document.querySelector('.advantages');
 var footerColumns = document.querySelectorAll('.page-footer__column');
 
 if (navButton) {
@@ -53,6 +57,20 @@ if (form) {
     localStorage.setItem('user-name', userName.value);
     localStorage.setItem('user-phone', userPhone.value);
     localStorage.setItem('user-question', userQuestion.value);
+  });
+}
+
+if (promoButton) {
+  promoButton.addEventListener('click', function (evt) {
+    evt.preventDefault();
+    window.scrollBy({top: (feedback.offsetTop - window.scrollY), behavior: 'smooth'});
+  });
+}
+
+if (promoScroll) {
+  promoScroll.addEventListener('click', function (evt) {
+    evt.preventDefault();
+    window.scrollBy({top: (advantages.offsetTop - window.scrollY), behavior: 'smooth'});
   });
 }
 
