@@ -5,6 +5,7 @@
   background-image: url("../img/bg-year@1x.png");
   background-repeat: no-repeat;
   background-position: left -20px top 3px;
+  background-size: 220px;
 
   @media (min-resolution: $retina-dpi), (min-resolution: $retina-dppx) {
     background-image: url("../img/bg-year@2x.png");
