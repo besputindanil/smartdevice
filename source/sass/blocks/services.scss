@@ -28,7 +28,7 @@
 
 .services__item {
   width: 31%;
-  margin-right: 30px;
+  margin-right: 40px;
 
   overflow: hidden;
 
@@ -155,8 +155,10 @@
   }
 
   .services__title {
-    margin-left: 10px;
+    margin-right: 0;
     margin-bottom: 43px;
+    margin-left: 10px;
+
     font-size: 28px;
     line-height: 39px;
   }

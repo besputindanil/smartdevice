@@ -1,0 +1,114 @@
+.popup {
+  position: fixed;
+  top: 136px;
+  left: 50%;
+  z-index: 20;
+
+  display: none;
+  width: 410px;
+  padding: 30px 40px 37px 40px;
+  margin-left: -235px;
+
+  background-color: #00b2ff;
+}
+
+.popup--show {
+  display: block;
+}
+
+.popup__header {
+  position: relative;
+
+  margin-bottom: 32px;
+}
+
+.popup__title {
+  margin: 0;
+  margin-bottom: 12px;
+
+  font-family: $roboto-condensed-font;
+  font-weight: normal;
+  font-size: 28px;
+  line-height: 39px;
+  color: #ffffff;
+}
+
+.popup__info {
+  margin: 0;
+  margin-right: 10px;
+
+  color: #ffffff;
+}
+
+.popup__button {
+  position: absolute;
+  top: -11px;
+  right: -20px;
+
+  display: block;
+  width: 17px;
+  height: 17px;
+
+  background-color: transparent;
+  border: none;
+
+  cursor: pointer;
+
+  &::before,
+  &::after {
+    content: "";
+
+    position: absolute;
+    top: 6px;
+    right: -4px;
+
+    width: 23px;
+    height: 1px;
+
+    background: #ffffff;
+  }
+
+  &::before {
+    transform: rotate(45deg);
+  }
+
+  &::after {
+    transform: rotate(-45deg);
+  }
+}
+
+.popup__form input[type="text"],
+.popup__form input[type="tel"],
+.popup__form textarea {
+  padding: 14px 24px;
+
+  &:hover,
+  &:focus {
+    padding: 13px 23px;
+  }
+}
+
+.popup__form input[type="text"],
+.popup__form input[type="tel"] {
+  margin-bottom: 30px;
+}
+
+.popup__form textarea {
+  min-height: 104px;
+  margin-bottom: 34px;
+}
+
+.popup__form button {
+  margin-bottom: 34px;
+}
+
+.popup__form input[type="checkbox"] + label {
+  padding-left: 50px;
+}
+
+.popup__form input[type="text"],
+.popup__form input[type="tel"],
+.popup__form input[type="checkbox"] + label,
+.popup__form button {
+  width: 100%;
+}
