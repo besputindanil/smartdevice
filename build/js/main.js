@@ -2,7 +2,7 @@
 
 var ESC_KEYCODE = 27;
 
-var navButton = document.querySelector('.main-nav__button');
+var headerButton = document.querySelector('.page-header__button');
 var popup = document.querySelector('.popup');
 var popupButton = document.querySelector('.popup__button');
 var overlay = document.querySelector('.overlay');
@@ -16,8 +16,8 @@ var feedback = document.querySelector('.feedback');
 var advantages = document.querySelector('.advantages');
 var footerColumns = document.querySelectorAll('.page-footer__column');
 
-if (navButton) {
-  navButton.addEventListener('click', function (evt) {
+if (headerButton) {
+  headerButton.addEventListener('click', function (evt) {
     evt.preventDefault();
     popup.classList.add('popup--show');
     overlay.classList.add('overlay--show');
