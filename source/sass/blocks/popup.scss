@@ -16,13 +16,9 @@
   display: block;
 }
 
-.popup__header {
+.popup__title {
   position: relative;
 
-  margin-bottom: 32px;
-}
-
-.popup__title {
   margin: 0;
   margin-bottom: 12px;
 
@@ -36,14 +32,15 @@
 .popup__info {
   margin: 0;
   margin-right: 10px;
+  margin-bottom: 32px;
 
   color: #ffffff;
 }
 
 .popup__button {
   position: absolute;
-  top: -11px;
-  right: -20px;
+  top: 20px;
+  right: 20px;
 
   display: block;
   width: 17px;

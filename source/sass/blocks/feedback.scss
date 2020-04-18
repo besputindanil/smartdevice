@@ -16,16 +16,12 @@
   padding-bottom: 112px;
 }
 
-.feedback__header {
-  margin-left: 10px;
-  margin-bottom: 52px;
-}
-
-.feedback__slogan {
+.feedback__title {
   margin: 0;
   margin-bottom: 8px;
 
   font-family: $roboto-condensed-font;
+  font-weight: normal;
   font-size: 36px;
   line-height: 51px;
   color: #ffffff;
@@ -33,12 +29,9 @@
 
 .feedback__info {
   margin: 0;
+  margin-bottom: 52px;
 
   color: #ffffff;
-}
-
-.feedback__form {
-  margin-left: 10px;
 }
 
 @media (max-width: $tablet-width) {
@@ -52,16 +45,11 @@
     padding: 80px 90px 100px 90px;
   }
 
-  .feedback__slogan {
+  .feedback__title {
     margin-bottom: 16px;
 
     font-size: 32px;
     line-height: 45px;
-  }
-
-  .feedback__header,
-  .feedback__form {
-    margin-left: 0;
   }
 }
 
@@ -73,14 +61,14 @@
     padding: 30px 15px 43px 15px;
   }
 
-  .feedback__header {
-    margin-bottom: 22px;
-  }
-
-  .feedback__slogan {
+  .feedback__title {
     margin-bottom: 16px;
 
     font-size: 28px;
     line-height: 39px;
+  }
+
+  .feedback__info {
+    margin-bottom: 22px;
   }
 }
