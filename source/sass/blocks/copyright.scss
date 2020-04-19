@@ -7,26 +7,22 @@
 }
 
 .copyright__text {
-  margin: 0;
-
   font-size: 13px;
   line-height: 24px;
   letter-spacing: 0.04em;
   text-transform: uppercase;
   color: #1b2d37;
 
+  opacity: 0.5;
+
   &--rights {
     width: 165px;
     margin-right: 59px;
-
-    opacity: 0.5;
   }
 
   &--company {
     width: 233px;
     margin-right: 142px;
-
-    opacity: 0.5;
   }
 
   &--confidentiality {
@@ -37,20 +33,16 @@
     width: 192px;
     margin-left: auto;
   }
-}
 
-.copyright__link {
-  color: #1b2d37;
+  &--link {
+    &:hover,
+    &:focus {
+      opacity: 0.8;
+    }
 
-  opacity: 0.5;
-
-  &:hover,
-  &:focus {
-    opacity: 0.8;
-  }
-
-  &:active {
-    opacity: 0.5;
+    &:active {
+      opacity: 0.5;
+    }
   }
 }
 
