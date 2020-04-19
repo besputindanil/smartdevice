@@ -18,77 +18,96 @@ var advantages = document.querySelector('.advantages');
 var footerColumns = document.querySelectorAll('.page-footer__column');
 var phoneInputs = document.querySelectorAll('input[type="tel"]');
 
-if (headerButton) {
-  headerButton.addEventListener('click', function (evt) {
+var onPopupEscPress = function (evt) {
+  if (evt.keyCode === ESC_KEYCODE) {
     evt.preventDefault();
-    popup.classList.add('popup--show');
-    overlay.classList.add('overlay--show');
-    body.classList.add('overflow');
-    userName.focus();
-  });
+    closePopup();
+  }
+};
+
+var openPopup = function () {
+  popup.classList.add('popup--show');
+  overlay.classList.add('overlay--show');
+  body.classList.add('overflow');
+  window.addEventListener('keydown', onPopupEscPress);
+};
+
+var closePopup = function () {
+  popup.classList.remove('popup--show');
+  overlay.classList.remove('overlay--show');
+  body.classList.remove('overflow');
+  window.removeEventListener('keydown', onPopupEscPress);
+};
+
+var onHeaderButtonClick = function (evt) {
+  evt.preventDefault();
+  openPopup();
+  userName.focus();
+};
+
+var onPopupButtonClick = function (evt) {
+  evt.preventDefault();
+  closePopup();
+};
+
+var onOverlayClick = function (evt) {
+  evt.preventDefault();
+  closePopup();
+};
+
+if (headerButton) {
+  headerButton.addEventListener('click', onHeaderButtonClick);
 }
 
 if (popupButton) {
-  popupButton.addEventListener('click', function (evt) {
-    evt.preventDefault();
-    popup.classList.remove('popup--show');
-    overlay.classList.remove('overlay--show');
-    body.classList.remove('overflow');
-  });
+  popupButton.addEventListener('click', onPopupButtonClick);
 }
 
 if (overlay) {
-  overlay.addEventListener('click', function (evt) {
-    evt.preventDefault();
-    popup.classList.remove('popup--show');
-    overlay.classList.remove('overlay--show');
-    body.classList.remove('overflow');
-  });
+  overlay.addEventListener('click', onOverlayClick);
 }
 
-window.addEventListener('keydown', function (evt) {
-  if (evt.keyCode === ESC_KEYCODE) {
-    if (popup.classList.contains('popup--show')) {
-      evt.preventDefault();
-      popup.classList.remove('popup--show');
-      overlay.classList.remove('overlay--show');
-      body.classList.remove('overflow');
-    }
-  }
-});
+var onFormSubmit = function (evt) {
+  evt.preventDefault();
+  localStorage.setItem('user-name', userName.value);
+  localStorage.setItem('user-phone', userPhone.value);
+  localStorage.setItem('user-question', userQuestion.value);
+};
 
 if (form) {
-  form.addEventListener('submit', function (evt) {
-    evt.preventDefault();
-    localStorage.setItem('user-name', userName.value);
-    localStorage.setItem('user-phone', userPhone.value);
-    localStorage.setItem('user-question', userQuestion.value);
-  });
+  form.addEventListener('submit', onFormSubmit);
 }
+
+var onPromoButtonClick = function (evt) {
+  evt.preventDefault();
+  window.scrollBy({top: (feedback.offsetTop - window.scrollY), behavior: 'smooth'});
+};
 
 if (promoButton) {
-  promoButton.addEventListener('click', function (evt) {
-    evt.preventDefault();
-    window.scrollBy({top: (feedback.offsetTop - window.scrollY), behavior: 'smooth'});
-  });
+  promoButton.addEventListener('click', onPromoButtonClick);
 }
 
+var onPromoScrollClick = function (evt) {
+  evt.preventDefault();
+  window.scrollBy({top: (advantages.offsetTop - window.scrollY), behavior: 'smooth'});
+};
+
 if (promoScroll) {
-  promoScroll.addEventListener('click', function (evt) {
-    evt.preventDefault();
-    window.scrollBy({top: (advantages.offsetTop - window.scrollY), behavior: 'smooth'});
-  });
+  promoScroll.addEventListener('click', onPromoScrollClick);
 }
 
 footerColumns.forEach(function (footerColumn) {
   footerColumn.classList.remove('page-footer__column--nojs');
   var footerButton = footerColumn.querySelector('.page-footer__button');
 
+  var onFooterButtonClick = function (evt) {
+    evt.preventDefault();
+    footerColumn.classList.toggle('page-footer__column--closed');
+    footerColumn.classList.toggle('page-footer__column--opened');
+  };
+
   if (footerButton) {
-    footerButton.addEventListener('click', function () {
-      footerColumn.classList.toggle('page-footer__column--closed');
-      footerColumn.classList.toggle('page-footer__column--opened');
-    });
+    footerButton.addEventListener('click', onFooterButtonClick);
   }
 });
 
