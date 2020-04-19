@@ -82,6 +82,14 @@
   outline: none;
 }
 
+.form__icon {
+  position: absolute;
+  top: 6px;
+  left: 5px;
+
+  display: none;
+}
+
 .form input[type="checkbox"] + label {
   position: relative;
 
@@ -113,10 +121,10 @@
   }
 }
 
-.form input[type="checkbox"]:checked + label::before {
-  background-image: url("../img/icon-checkbox-on.svg");
-  background-repeat: no-repeat;
-  background-position: center;
+.form input[type="checkbox"]:checked + label {
+  .form__icon {
+    display: block;
+  }
 }
 
 .form input[type="checkbox"]:focus + label {
