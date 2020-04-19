@@ -16,7 +16,7 @@
   padding-bottom: 112px;
 }
 
-.feedback__title {
+.feedback h2 {
   margin: 0;
   margin-bottom: 8px;
 
@@ -27,7 +27,7 @@
   color: #ffffff;
 }
 
-.feedback__info {
+.feedback p {
   margin: 0;
   margin-bottom: 52px;
 
@@ -45,7 +45,7 @@
     padding: 80px 90px 100px 90px;
   }
 
-  .feedback__title {
+  .feedback h2 {
     margin-bottom: 16px;
 
     font-size: 32px;
@@ -61,14 +61,14 @@
     padding: 30px 15px 43px 15px;
   }
 
-  .feedback__title {
+  .feedback h2 {
     margin-bottom: 16px;
 
     font-size: 28px;
     line-height: 39px;
   }
 
-  .feedback__info {
+  .feedback p {
     margin-bottom: 22px;
   }
 }
