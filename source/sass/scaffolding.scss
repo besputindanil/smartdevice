@@ -30,8 +30,13 @@
   src: url("../fonts/RobotoCondensed-Bold.woff2") format("woff2"), url("../fonts/RobotoCondensed-Bold.woff") format("woff");
 }
 
+html {
+  height: 100%;
+}
+
 body {
   min-width: 320px;
+  height: 100%;
   margin: 0;
   padding: 0;
 
