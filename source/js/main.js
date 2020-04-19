@@ -2,6 +2,7 @@
 
 var ESC_KEYCODE = 27;
 
+var body = document.querySelector('body');
 var headerButton = document.querySelector('.page-header__button');
 var popup = document.querySelector('.popup');
 var popupButton = document.querySelector('.popup__button');
@@ -15,12 +16,14 @@ var promoScroll = document.querySelector('.promo-block__scroll');
 var feedback = document.querySelector('.feedback');
 var advantages = document.querySelector('.advantages');
 var footerColumns = document.querySelectorAll('.page-footer__column');
+var phoneInputs = document.querySelectorAll('input[type="tel"]');
 
 if (headerButton) {
   headerButton.addEventListener('click', function (evt) {
     evt.preventDefault();
     popup.classList.add('popup--show');
     overlay.classList.add('overlay--show');
+    body.classList.add('overflow');
     userName.focus();
   });
 }
@@ -30,6 +33,7 @@ if (popupButton) {
     evt.preventDefault();
     popup.classList.remove('popup--show');
     overlay.classList.remove('overlay--show');
+    body.classList.remove('overflow');
   });
 }
 
@@ -38,6 +42,7 @@ if (overlay) {
     evt.preventDefault();
     popup.classList.remove('popup--show');
     overlay.classList.remove('overlay--show');
+    body.classList.remove('overflow');
   });
 }
 
@@ -47,6 +52,7 @@ window.addEventListener('keydown', function (evt) {
       evt.preventDefault();
       popup.classList.remove('popup--show');
       overlay.classList.remove('overlay--show');
+      body.classList.remove('overflow');
     }
   }
 });
@@ -85,3 +91,6 @@ footerColumns.forEach(function (footerColumn) {
     });
   }
 });
+
+var im = new Inputmask('+7(999)999-99-99');
+im.mask(phoneInputs);
