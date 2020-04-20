@@ -122,6 +122,19 @@
   &:hover {
     opacity: 1;
     text-decoration: underline;
+
+    &::before {
+      box-shadow: 2px 2px rgba(255, 255, 255, 0.5);
+    }
+  }
+
+  &:active {
+    opacity: 0.8;
+    text-decoration: none;
+
+    &::before {
+      box-shadow: none;
+    }
   }
 }
 
@@ -133,6 +146,11 @@
 
 .form input[type="checkbox"]:focus + label {
   opacity: 1;
+  text-decoration: underline;
+
+  &::before {
+    box-shadow: 2px 2px rgba(255, 255, 255, 0.5);
+  }
 }
 
 @media (max-width: $tablet-width) {
