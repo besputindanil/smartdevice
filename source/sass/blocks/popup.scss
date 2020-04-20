@@ -72,6 +72,18 @@
   &::after {
     transform: rotate(-45deg);
   }
+
+  &:hover::before,
+  &:hover::after,
+  &:focus::before,
+  &:focus::after {
+    opacity: 0.8;
+  }
+
+  &:active::before,
+  &:active::after {
+    opacity: 1;
+  }
 }
 
 .popup__form input[type="text"],
