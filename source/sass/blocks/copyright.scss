@@ -1,5 +1,6 @@
 .copyright__wrapper {
   display: flex;
+  justify-content: space-between;
   max-width: 1411px;
   margin: 0 auto;
   padding-right: 7px;
@@ -23,6 +24,10 @@
   &--company {
     width: 233px;
     margin-right: 142px;
+
+    @media (max-width: 1100px) {
+      margin-right: 80px;
+    }
   }
 
   &--confidentiality {
