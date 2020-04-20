@@ -3,9 +3,10 @@
   background-image: url("../img/bg-airplane@1x.png");
   background-repeat: no-repeat;
   background-position: center top -59px;
+  background-size: 1745px auto;
 
   @media (min-resolution: $retina-dpi), (min-resolution: $retina-dppx) {
-    background-image: url("../img/bg-airplane@2x.jpg");
+    background-image: url("../img/bg-airplane@2x.png");
   }
 }
 
