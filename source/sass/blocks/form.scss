@@ -1,4 +1,6 @@
 .form form {
+  position: relative;
+
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -79,9 +81,11 @@
 
 .form input[type="checkbox"] {
   position: absolute;
+  bottom: 15px;
+  left: 0;
+  z-index: -1;
 
-  appearance: none;
-  outline: none;
+  opacity: 0;
 }
 
 .form__icon {

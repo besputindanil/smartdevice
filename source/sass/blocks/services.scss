@@ -48,7 +48,7 @@
     background-color: #7f7f7f;
     background-image: url("../img/bg-production-desktop@1x.jpg");
     background-repeat: no-repeat;
-    background-position: -3px 0;
+    background-position: center;
     background-size: cover;
 
     @media (min-resolution: $retina-dpi), (min-resolution: $retina-dppx) {
@@ -60,7 +60,7 @@
     background-color: #7f7f7f;
     background-image: url("../img/bg-mounting-desktop@1x.jpg");
     background-repeat: no-repeat;
-    background-position: 0 0;
+    background-position: center;
     background-size: cover;
 
     @media (min-resolution: $retina-dpi), (min-resolution: $retina-dppx) {
@@ -72,7 +72,7 @@
     background-color: #7f7f7f;
     background-image: url("../img/bg-components-desktop@1x.jpg");
     background-repeat: no-repeat;
-    background-position: 0 0;
+    background-position: center;
     background-size: cover;
 
     @media (min-resolution: $retina-dpi), (min-resolution: $retina-dppx) {
@@ -164,7 +164,7 @@
     &--production {
       background-image: url("../img/bg-production-tablet@1x.jpg");
       background-repeat: no-repeat;
-      background-position: 0 0;
+      background-position: center;
       background-size: cover;
 
       @media (min-resolution: $retina-dpi), (min-resolution: $retina-dppx) {
@@ -175,7 +175,7 @@
     &--mounting {
       background-image: url("../img/bg-mounting-tablet@1x.jpg");
       background-repeat: no-repeat;
-      background-position: 0 0;
+      background-position: center;
       background-size: cover;
 
       @media (min-resolution: $retina-dpi), (min-resolution: $retina-dppx) {
@@ -186,7 +186,7 @@
     &--components {
       background-image: url("../img/bg-components-tablet@1x.jpg");
       background-repeat: no-repeat;
-      background-position: 0 0;
+      background-position: center;
       background-size: cover;
 
       @media (min-resolution: $retina-dpi), (min-resolution: $retina-dppx) {
@@ -222,7 +222,7 @@
     &--production {
       background-image: url("../img/bg-production-mobile@1x.jpg");
       background-repeat: no-repeat;
-      background-position: 0 0;
+      background-position: center;
       background-size: cover;
 
       @media (min-resolution: $retina-dpi), (min-resolution: $retina-dppx) {
@@ -233,7 +233,7 @@
     &--mounting {
       background-image: url("../img/bg-mounting-mobile@1x.jpg");
       background-repeat: no-repeat;
-      background-position: 0 0;
+      background-position: center;
       background-size: cover;
 
       @media (min-resolution: $retina-dpi), (min-resolution: $retina-dppx) {
@@ -244,7 +244,7 @@
     &--components {
       background-image: url("../img/bg-components-mobile@1x.jpg");
       background-repeat: no-repeat;
-      background-position: 0 0;
+      background-position: center;
       background-size: cover;
 
       @media (min-resolution: $retina-dpi), (min-resolution: $retina-dppx) {
