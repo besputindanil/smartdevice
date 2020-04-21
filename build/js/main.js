@@ -80,7 +80,7 @@ if (form) {
 
 var onPromoButtonClick = function (evt) {
   evt.preventDefault();
-  window.scrollBy({top: (feedback.offsetTop - window.scrollY), behavior: 'smooth'});
+  window.scrollTo(0, feedback.offsetTop);
 };
 
 if (promoButton) {
@@ -89,7 +89,7 @@ if (promoButton) {
 
 var onPromoScrollClick = function (evt) {
   evt.preventDefault();
-  window.scrollBy({top: (advantages.offsetTop - window.scrollY), behavior: 'smooth'});
+  window.scrollTo(0, advantages.offsetTop);
 };
 
 if (promoScroll) {

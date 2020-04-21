@@ -34,7 +34,6 @@
   &:nth-child(3n) {
     margin-right: 0;
   }
-
 }
 
 .services__link {
@@ -137,7 +136,7 @@
 
 @media (max-width: $tablet-width) {
   .services {
-    padding: 48px 25px 30px 25px;
+    padding: 48px 25px 28px 25px;
   }
 
   .services__list {
