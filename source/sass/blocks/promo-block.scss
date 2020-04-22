@@ -1,7 +1,7 @@
 .promo-block {
   background-image: url("../img/bg-promo-desktop@1x.png");
   background-repeat: no-repeat;
-  background-position: center bottom -2px;
+  background-position: center bottom -4px;
   background-size: 1920px auto;
 
   @media (min-resolution: $retina-dpi), (min-resolution: $retina-dppx) {
@@ -14,13 +14,13 @@
   display: flex;
   flex-direction: column;
   margin: 0 auto;
-  padding: 10px 7px 127px 23px;
+  padding: 90px 7px 129px 23px;
 }
 
 .promo-block h2 {
   width: 800px;
   margin-top: 106px;
-  margin-bottom: 30px;
+  margin-bottom: 28px;
 
   font-family: $roboto-condensed-font;
   font-weight: bold;
@@ -36,8 +36,8 @@
 
   width: 618px;
   margin: 0;
-  margin-bottom: 45px;
-  padding-left: 100px;
+  margin-bottom: 42px;
+  padding-left: 96px;
 
   font-size: 22px;
   line-height: 34px;
@@ -59,7 +59,7 @@
 
 .promo-block__button {
   width: 407px;
-  margin-left: 100px;
+  margin-left: 96px;
   margin-bottom: 130px;
   padding: 17px 24px;
 
@@ -114,7 +114,7 @@
   .promo-block {
     background-image: url("../img/bg-promo-tablet@1x.png");
     background-repeat: no-repeat;
-    background-position: right -2px bottom 126px;
+    background-position: right -2px bottom 123px;
     background-size: 770px auto;
 
     @media (min-resolution: $retina-dpi), (min-resolution: $retina-dppx) {
@@ -129,8 +129,7 @@
 
   .promo-block h2 {
     width: 470px;
-    margin-top: 110px;
-    margin-bottom: 28px;
+    margin-top: 105px;
 
     font-size: 60px;
     line-height: 70px;
@@ -179,7 +178,7 @@
 
   .promo-block h2 {
     width: 277px;
-    margin-top: 208px;
+    margin-top: 190px;
     margin-bottom: 27px;
 
     font-size: 40px;
