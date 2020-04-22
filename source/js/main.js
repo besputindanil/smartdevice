@@ -11,10 +11,6 @@ var userName = popup.querySelector('#name-popup');
 var userPhone = popup.querySelector('#phone-popup');
 var userQuestion = popup.querySelector('#question-popup');
 var form = popup.querySelector('form');
-var promoButton = document.querySelector('.promo-block__button');
-var promoScroll = document.querySelector('.promo-block__scroll');
-var feedback = document.querySelector('.feedback');
-var advantages = document.querySelector('.advantages');
 var footerColumns = document.querySelectorAll('.page-footer__column');
 var phoneInputs = document.querySelectorAll('input[type="tel"]');
 
@@ -78,23 +74,23 @@ if (form) {
   form.addEventListener('submit', onFormSubmit);
 }
 
-var onPromoButtonClick = function (evt) {
-  evt.preventDefault();
-  window.scrollTo(0, feedback.offsetTop);
+var animation = function (duration) {
+  var temp;
+  return function (sel) {
+    cancelAnimationFrame(temp);
+    var start = performance.now();
+    var from = window.pageYOffset || document.documentElement.scrollTop;
+    var to = document.querySelector(sel).getBoundingClientRect().top;
+    requestAnimationFrame(function step(timestamp) {
+      var progress = (timestamp - start) / duration;
+      progress > 1 && (progress = 1);
+      window.scrollTo(0, from + to * progress | 0);
+      progress < 1 && (temp = requestAnimationFrame(step));
+    });
+  };
 };
 
-if (promoButton) {
-  promoButton.addEventListener('click', onPromoButtonClick);
-}
-
-var onPromoScrollClick = function (evt) {
-  evt.preventDefault();
-  window.scrollTo(0, advantages.offsetTop);
-};
-
-if (promoScroll) {
-  promoScroll.addEventListener('click', onPromoScrollClick);
-}
+var scrollMenu = animation(500);
 
 footerColumns.forEach(function (footerColumn) {
   footerColumn.classList.remove('page-footer__column--nojs');
