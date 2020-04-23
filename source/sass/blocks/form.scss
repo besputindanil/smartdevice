@@ -7,8 +7,13 @@
   flex-wrap: wrap;
 }
 
-.form label {
+.form__input-label,
+.form__checkbox-label {
   width: calc((100% - 30px) / 2);
+}
+
+.form__textarea-label {
+  width: 100%;
 }
 
 .form input[type="text"],
@@ -172,7 +177,7 @@
 
   .form textarea {
     min-height: 105px;
-    margin-bottom: 30px;
+    margin-bottom: 23px;
     padding: 14px 17px;
   }
 
