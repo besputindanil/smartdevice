@@ -1,5 +1,243 @@
 /* eslint-disable*/
 
+/*!
+ * @copyright Copyright (c) 2017 IcoMoon.io
+ * @license   Licensed under MIT license
+ *            See https://github.com/Keyamoon/svgxuse
+ * @version   1.2.6
+ */
+/*jslint browser: true */
+/*global XDomainRequest, MutationObserver, window */
+(function () {
+  "use strict";
+  if (typeof window !== "undefined" && window.addEventListener) {
+      var cache = Object.create(null); // holds xhr objects to prevent multiple requests
+      var checkUseElems;
+      var tid; // timeout id
+      var debouncedCheck = function () {
+          clearTimeout(tid);
+          tid = setTimeout(checkUseElems, 100);
+      };
+      var unobserveChanges = function () {
+          return;
+      };
+      var observeChanges = function () {
+          var observer;
+          window.addEventListener("resize", debouncedCheck, false);
+          window.addEventListener("orientationchange", debouncedCheck, false);
+          if (window.MutationObserver) {
+              observer = new MutationObserver(debouncedCheck);
+              observer.observe(document.documentElement, {
+                  childList: true,
+                  subtree: true,
+                  attributes: true
+              });
+              unobserveChanges = function () {
+                  try {
+                      observer.disconnect();
+                      window.removeEventListener("resize", debouncedCheck, false);
+                      window.removeEventListener("orientationchange", debouncedCheck, false);
+                  } catch (ignore) {}
+              };
+          } else {
+              document.documentElement.addEventListener("DOMSubtreeModified", debouncedCheck, false);
+              unobserveChanges = function () {
+                  document.documentElement.removeEventListener("DOMSubtreeModified", debouncedCheck, false);
+                  window.removeEventListener("resize", debouncedCheck, false);
+                  window.removeEventListener("orientationchange", debouncedCheck, false);
+              };
+          }
+      };
+      var createRequest = function (url) {
+          // In IE 9, cross origin requests can only be sent using XDomainRequest.
+          // XDomainRequest would fail if CORS headers are not set.
+          // Therefore, XDomainRequest should only be used with cross origin requests.
+          function getOrigin(loc) {
+              var a;
+              if (loc.protocol !== undefined) {
+                  a = loc;
+              } else {
+                  a = document.createElement("a");
+                  a.href = loc;
+              }
+              return a.protocol.replace(/:/g, "") + a.host;
+          }
+          var Request;
+          var origin;
+          var origin2;
+          if (window.XMLHttpRequest) {
+              Request = new XMLHttpRequest();
+              origin = getOrigin(location);
+              origin2 = getOrigin(url);
+              if (Request.withCredentials === undefined && origin2 !== "" && origin2 !== origin) {
+                  Request = XDomainRequest || undefined;
+              } else {
+                  Request = XMLHttpRequest;
+              }
+          }
+          return Request;
+      };
+      var xlinkNS = "http://www.w3.org/1999/xlink";
+      checkUseElems = function () {
+          var base;
+          var bcr;
+          var fallback = ""; // optional fallback URL in case no base path to SVG file was given and no symbol definition was found.
+          var hash;
+          var href;
+          var i;
+          var inProgressCount = 0;
+          var isHidden;
+          var Request;
+          var url;
+          var uses;
+          var xhr;
+          function observeIfDone() {
+              // If done with making changes, start watching for chagnes in DOM again
+              inProgressCount -= 1;
+              if (inProgressCount === 0) { // if all xhrs were resolved
+                  unobserveChanges(); // make sure to remove old handlers
+                  observeChanges(); // watch for changes to DOM
+              }
+          }
+          function attrUpdateFunc(spec) {
+              return function () {
+                  if (cache[spec.base] !== true) {
+                      spec.useEl.setAttributeNS(xlinkNS, "xlink:href", "#" + spec.hash);
+                      if (spec.useEl.hasAttribute("href")) {
+                          spec.useEl.setAttribute("href", "#" + spec.hash);
+                      }
+                  }
+              };
+          }
+          function onloadFunc(xhr) {
+              return function () {
+                  var body = document.body;
+                  var x = document.createElement("x");
+                  var svg;
+                  xhr.onload = null;
+                  x.innerHTML = xhr.responseText;
+                  svg = x.getElementsByTagName("svg")[0];
+                  if (svg) {
+                      svg.setAttribute("aria-hidden", "true");
+                      svg.style.position = "absolute";
+                      svg.style.width = 0;
+                      svg.style.height = 0;
+                      svg.style.overflow = "hidden";
+                      body.insertBefore(svg, body.firstChild);
+                  }
+                  observeIfDone();
+              };
+          }
+          function onErrorTimeout(xhr) {
+              return function () {
+                  xhr.onerror = null;
+                  xhr.ontimeout = null;
+                  observeIfDone();
+              };
+          }
+          unobserveChanges(); // stop watching for changes to DOM
+          // find all use elements
+          uses = document.getElementsByTagName("use");
+          for (i = 0; i < uses.length; i += 1) {
+              try {
+                  bcr = uses[i].getBoundingClientRect();
+              } catch (ignore) {
+                  // failed to get bounding rectangle of the use element
+                  bcr = false;
+              }
+              href = uses[i].getAttribute("href")
+                      || uses[i].getAttributeNS(xlinkNS, "href")
+                      || uses[i].getAttribute("xlink:href");
+              if (href && href.split) {
+                  url = href.split("#");
+              } else {
+                  url = ["", ""];
+              }
+              base = url[0];
+              hash = url[1];
+              isHidden = bcr && bcr.left === 0 && bcr.right === 0 && bcr.top === 0 && bcr.bottom === 0;
+              if (bcr && bcr.width === 0 && bcr.height === 0 && !isHidden) {
+                  // the use element is empty
+                  // if there is a reference to an external SVG, try to fetch it
+                  // use the optional fallback URL if there is no reference to an external SVG
+                  if (fallback && !base.length && hash && !document.getElementById(hash)) {
+                      base = fallback;
+                  }
+                  if (uses[i].hasAttribute("href")) {
+                      uses[i].setAttributeNS(xlinkNS, "xlink:href", href);
+                  }
+                  if (base.length) {
+                      // schedule updating xlink:href
+                      xhr = cache[base];
+                      if (xhr !== true) {
+                          // true signifies that prepending the SVG was not required
+                          setTimeout(attrUpdateFunc({
+                              useEl: uses[i],
+                              base: base,
+                              hash: hash
+                          }), 0);
+                      }
+                      if (xhr === undefined) {
+                          Request = createRequest(base);
+                          if (Request !== undefined) {
+                              xhr = new Request();
+                              cache[base] = xhr;
+                              xhr.onload = onloadFunc(xhr);
+                              xhr.onerror = onErrorTimeout(xhr);
+                              xhr.ontimeout = onErrorTimeout(xhr);
+                              xhr.open("GET", base);
+                              xhr.send();
+                              inProgressCount += 1;
+                          }
+                      }
+                  }
+              } else {
+                  if (!isHidden) {
+                      if (cache[base] === undefined) {
+                          // remember this URL if the use element was not empty and no request was sent
+                          cache[base] = true;
+                      } else if (cache[base].onload) {
+                          // if it turns out that prepending the SVG is not necessary,
+                          // abort the in-progress xhr.
+                          cache[base].abort();
+                          delete cache[base].onload;
+                          cache[base] = true;
+                      }
+                  } else if (base.length && cache[base]) {
+                      setTimeout(attrUpdateFunc({
+                          useEl: uses[i],
+                          base: base,
+                          hash: hash
+                      }), 0);
+                  }
+              }
+          }
+          uses = "";
+          inProgressCount += 1;
+          observeIfDone();
+      };
+      var winLoad;
+      winLoad = function () {
+          window.removeEventListener("load", winLoad, false); // to prevent memory leaks
+          tid = setTimeout(checkUseElems, 0);
+      };
+      if (document.readyState !== "complete") {
+          // The load event fires when all resources have finished loading, which allows detecting whether SVG use elements are empty.
+          window.addEventListener("load", winLoad, false);
+      } else {
+          // No need to add a listener if the document is already loaded, initialize immediately.
+          winLoad();
+      }
+  }
+}());
+
+/*!
+ * dist/inputmask
+ * https://github.com/RobinHerbots/Inputmask
+ * Copyright (c) 2010 - 2020 Robin Herbots
+ * Licensed under the MIT license
+ * Version: 5.0.4-beta.36
+ */
 !function webpackUniversalModuleDefinition(root, factory) {
   if ("object" == typeof exports && "object" == typeof module) module.exports = factory(); else if ("function" == typeof define && define.amd) define([], factory); else {
       var a = factory();
@@ -30,9 +268,9 @@
       }
       function resolveAlias(aliasStr, options, opts) {
           var aliasDefinition = Inputmask.prototype.aliases[aliasStr];
-          return aliasDefinition ? (aliasDefinition.alias && resolveAlias(aliasDefinition.alias, void 0, opts),
-          $.extend(!0, opts, aliasDefinition), $.extend(!0, opts, options), !0) : (null === opts.mask && (opts.mask = aliasStr),
-          !1);
+          if (aliasDefinition) return aliasDefinition.alias && resolveAlias(aliasDefinition.alias, void 0, opts),
+          $.extend(!0, opts, aliasDefinition), $.extend(!0, opts, options), 1;
+          null === opts.mask && (opts.mask = aliasStr);
       }
       function importAttributeOptions(npt, opts, userOptions, dataAttribute) {
           function importOption(option, optionData) {
@@ -266,7 +504,7 @@
       }
       function isArraylike(obj) {
           var length = "length" in obj && obj.length, ltype = _typeof(obj);
-          return "function" !== ltype && !isWindow(obj) && (!(1 !== obj.nodeType || !length) || ("array" === ltype || 0 === length || "number" == typeof length && 0 < length && length - 1 in obj));
+          return "function" !== ltype && !isWindow(obj) && (1 === obj.nodeType && length || ("array" === ltype || 0 === length || "number" == typeof length && 0 < length && length - 1 in obj));
       }
       function isValidElement(elem) {
           return elem instanceof Element;
@@ -770,7 +1008,7 @@
                   valids[psNdx] && (strict || !0 !== valids[psNdx].generatedInput) && (psNdx <= closestTo && (before = psNdx),
                   closestTo <= psNdx && (after = psNdx));
               }
-              return -1 === before || before == closestTo ? after : -1 == after ? before : closestTo - before < after - closestTo ? before : after;
+              return -1 !== before && before != closestTo && (-1 == after || closestTo - before < after - closestTo) ? before : after;
           }
           function getDecisionTaker(tst) {
               var decisionTaker = tst.locator[tst.alternation];
@@ -843,7 +1081,7 @@
                               expanded.push(pattern.charAt(i));
                               return expanded.join("");
                           }
-                          return source.match.def === target.match.nativeDef || !(!(opts.regex || source.match.fn instanceof RegExp && target.match.fn instanceof RegExp) || !0 === source.match.static || !0 === target.match.static) && -1 !== expand(target.match.fn.toString().replace(/[[\]/]/g, "")).indexOf(expand(source.match.fn.toString().replace(/[[\]/]/g, "")));
+                          return source.match.def === target.match.nativeDef || (opts.regex || source.match.fn instanceof RegExp && target.match.fn instanceof RegExp) && !0 !== source.match.static && !0 !== target.match.static && -1 !== expand(target.match.fn.toString().replace(/[[\]/]/g, "")).indexOf(expand(source.match.fn.toString().replace(/[[\]/]/g, "")));
                       }
                       function staticCanMatchDefinition(source, target) {
                           return !0 === source.match.static && !0 !== target.match.static && target.match.fn.test(source.match.def, maskset, pos, !1, opts, !1);
@@ -864,16 +1102,16 @@
                                       void 0 === targetMatch.mloc[ndx] && (targetMatch.mloc[ndx] = altMatch.mloc[ndx]);
                                       targetMatch.locator[alternationNdx] = Object.keys(targetMatch.mloc).join(",");
                                   }
-                                  return !0;
+                                  return 1;
                               }
                               targetMatch.alternation = void 0;
                           }
-                          return !1;
                       }
                       function isSameLevel(targetMatch, altMatch) {
-                          if (targetMatch.locator.length !== altMatch.locator.length) return !1;
-                          for (var locNdx = targetMatch.alternation + 1; locNdx < targetMatch.locator.length; locNdx++) if (targetMatch.locator[locNdx] !== altMatch.locator[locNdx]) return !1;
-                          return !0;
+                          if (targetMatch.locator.length === altMatch.locator.length) {
+                              for (var locNdx = targetMatch.alternation + 1; locNdx < targetMatch.locator.length; locNdx++) if (targetMatch.locator[locNdx] !== altMatch.locator[locNdx]) return;
+                              return 1;
+                          }
                       }
                       if (testPos > pos + opts._maxTestPos) throw "Inputmask: There is probably an error in your mask definition or in the code. Create an issue on github with an example of the mask you are using. " + maskset.mask;
                       if (testPos === pos && void 0 === match.matches) return matches.push({
@@ -1138,9 +1376,9 @@
                           pos: position
                       }, !1 !== rslt) {
                           var elem = void 0 !== rslt.c ? rslt.c : c, validatedPos = position;
-                          return elem = elem === opts.skipOptionalPartCharacter && !0 === test.static ? getPlaceholder(position, test, !0) || test.def : elem,
+                          return (elem = elem === opts.skipOptionalPartCharacter && !0 === test.static ? getPlaceholder(position, test, !0) || test.def : elem,
                           rslt = processCommandObject(rslt), !0 !== rslt && void 0 !== rslt.pos && rslt.pos !== position && (validatedPos = rslt.pos),
-                          !0 !== rslt && void 0 === rslt.pos && void 0 === rslt.c ? !1 : (!1 === revalidateMask(pos, $.extend({}, tst, {
+                          !0 !== rslt && void 0 === rslt.pos && void 0 === rslt.c) ? !1 : (!1 === revalidateMask(pos, $.extend({}, tst, {
                               input: casing(elem, test, validatedPos)
                           }), fromIsValid, validatedPos) && (rslt = !1), !1);
                       }
@@ -1206,9 +1444,10 @@
           function revalidateMask(pos, validTest, fromIsValid, validatedPos) {
               function IsEnclosedStatic(pos, valids, selection) {
                   var posMatch = valids[pos];
-                  if (void 0 === posMatch || !0 !== posMatch.match.static || !0 === posMatch.match.optionality || void 0 !== valids[0] && void 0 !== valids[0].alternation) return !1;
-                  var prevMatch = selection.begin <= pos - 1 ? valids[pos - 1] && !0 === valids[pos - 1].match.static && valids[pos - 1] : valids[pos - 1], nextMatch = selection.end > pos + 1 ? valids[pos + 1] && !0 === valids[pos + 1].match.static && valids[pos + 1] : valids[pos + 1];
-                  return prevMatch && nextMatch;
+                  if (void 0 !== posMatch && !0 === posMatch.match.static && !0 !== posMatch.match.optionality && (void 0 === valids[0] || void 0 === valids[0].alternation)) {
+                      var prevMatch = (!(selection.begin <= pos - 1) || valids[pos - 1] && !0 === valids[pos - 1].match.static) && valids[pos - 1], nextMatch = (!(selection.end > pos + 1) || valids[pos + 1] && !0 === valids[pos + 1].match.static) && valids[pos + 1];
+                      return prevMatch && nextMatch;
+                  }
               }
               var offset = 0, begin = void 0 !== pos.begin ? pos.begin : pos, end = void 0 !== pos.end ? pos.end : pos;
               if (pos.begin > pos.end && (begin = pos.end, end = pos.begin), validatedPos = void 0 !== validatedPos ? validatedPos : begin,
@@ -1248,7 +1487,7 @@
           function isMask(pos, strict, fuzzy) {
               var test = getTestTemplate(pos).match;
               if ("" === test.def && (test = getTest(pos).match), !0 !== test.static) return test.fn;
-              if (!0 === fuzzy && void 0 !== maskset.validPositions[pos] && !0 !== maskset.validPositions[pos].generatedInput) return !0;
+              if (!0 === fuzzy && void 0 !== maskset.validPositions[pos] && !0 !== maskset.validPositions[pos].generatedInput) return 1;
               if (!0 !== strict && -1 < pos) {
                   if (fuzzy) {
                       var tests = getTests(pos);
@@ -1257,7 +1496,6 @@
                   var testTemplate = determineTestTemplate(pos, getTests(pos)), testPlaceHolder = getPlaceholder(pos, testTemplate.match);
                   return testTemplate.match.def !== testPlaceHolder;
               }
-              return !1;
           }
           function seekNext(pos, newBlock, fuzzy) {
               void 0 === fuzzy && (fuzzy = !0);
@@ -1318,15 +1556,14 @@
                   if ("" !== opts.radixPoint && 0 !== opts.digits) {
                       var vps = maskset.validPositions;
                       if (void 0 === vps[clickPos] || vps[clickPos].input === getPlaceholder(clickPos)) {
-                          if (clickPos < seekNext(-1)) return !0;
+                          if (clickPos < seekNext(-1)) return 1;
                           var radixPos = $.inArray(opts.radixPoint, getBuffer());
                           if (-1 !== radixPos) {
-                              for (var vp in vps) if (vps[vp] && radixPos < vp && vps[vp].input !== getPlaceholder(vp)) return !1;
-                              return !0;
+                              for (var vp in vps) if (vps[vp] && radixPos < vp && vps[vp].input !== getPlaceholder(vp)) return;
+                              return 1;
                           }
                       }
                   }
-                  return !1;
               }
               if (tabbed && (isRTL ? selectedCaret.end = selectedCaret.begin : selectedCaret.begin = selectedCaret.end),
               selectedCaret.begin === selectedCaret.end) {
@@ -1402,9 +1639,9 @@
                                   HandleNativePlaceholder(input, (isRTL ? getBufferTemplate().slice().reverse() : getBufferTemplate()).join("")),
                                   setTimeout(function() {
                                       input.focus();
-                                  }, 3e3)) : (args = arguments, setTimeout(function() {
+                                  }, 3e3), !1) : (args = arguments, setTimeout(function() {
                                       input.inputmask && eventHandler.apply(that, args);
-                                  }, 0)), !1;
+                                  }, 0), !1);
                               }
                               var returnVal = eventHandler.apply(that, arguments);
                               return !1 === returnVal && (e.preventDefault(), e.stopPropagation()), returnVal;
@@ -1528,11 +1765,10 @@
                           break;
 
                         default:
-                          newBuffer[i] !== oldBuffer[i] && ("~" !== newBuffer[i + 1] && newBuffer[i + 1] !== placeholder && void 0 !== newBuffer[i + 1] || (oldBuffer[i] !== placeholder || "~" !== oldBuffer[i + 1]) && "~" !== oldBuffer[i] ? "~" === oldBuffer[i + 1] && oldBuffer[i] === newBuffer[i + 1] ? (action = "insertText",
+                          newBuffer[i] !== oldBuffer[i] && (("~" === newBuffer[i + 1] || newBuffer[i + 1] === placeholder || void 0 === newBuffer[i + 1]) && (oldBuffer[i] === placeholder && "~" === oldBuffer[i + 1] || "~" === oldBuffer[i]) || "~" === oldBuffer[i + 1] && oldBuffer[i] === newBuffer[i + 1] ? (action = "insertText",
                           data.push(newBuffer[i]), caretPos.begin--, caretPos.end--) : newBuffer[i] !== placeholder && "~" !== newBuffer[i] && ("~" === newBuffer[i + 1] || oldBuffer[i] !== newBuffer[i] && oldBuffer[i + 1] === newBuffer[i + 1]) ? (action = "insertReplacementText",
                           data.push(newBuffer[i]), caretPos.begin--) : "~" === newBuffer[i] ? (action = "deleteContentBackward",
-                          !isMask(translatePosition(i), !0) && oldBuffer[i] !== opts.radixPoint || caretPos.end++) : i = bl : (action = "insertText",
-                          data.push(newBuffer[i]), caretPos.begin--, caretPos.end--));
+                          !isMask(translatePosition(i), !0) && oldBuffer[i] !== opts.radixPoint || caretPos.end++) : i = bl);
                           break;
                       }
                       return {
@@ -2356,7 +2592,7 @@
           opts.greedy = !1, parseMinMaxOptions(opts), mask;
       }
       function hanndleRadixDance(pos, c, radixPos, maskset, opts) {
-          return opts._radixDance && opts.numericInput && c !== opts.negationSymbol.back && pos <= radixPos && (0 < radixPos || c == opts.radixPoint) && (void 0 === maskset.validPositions[pos - 1] || maskset.validPositions[pos - 1].input !== opts.negationSymbol.back) && (pos -= 1),
+          return opts._radixDance && opts.numericInput && c !== opts.negationSymbol.back && pos <= radixPos && (0 < radixPos || c == opts.radixPoint) && (void 0 === maskset.validPositions[pos - 1] || maskset.validPositions[pos - 1].input !== opts.negationSymbol.back) && --pos,
           pos;
       }
       function decimalValidator(chrs, maskset, pos, strict, opts) {
@@ -2534,7 +2770,7 @@
                   var valueParts = initialValue.split(radixPoint), integerPart = valueParts[0].replace(/[^\-0-9]/g, ""), decimalPart = 1 < valueParts.length ? valueParts[1].replace(/[^0-9]/g, "") : "", forceDigits = 1 < valueParts.length;
                   initialValue = integerPart + ("" !== decimalPart ? radixPoint + decimalPart : decimalPart);
                   var digits = 0;
-                  if ("" !== radixPoint && (digits = opts.digitsOptional ? opts.digits < decimalPart.length ? opts.digits : decimalPart.length : opts.digits,
+                  if ("" !== radixPoint && (digits = !opts.digitsOptional || opts.digits < decimalPart.length ? opts.digits : decimalPart.length,
                   "" !== decimalPart || !opts.digitsOptional)) {
                       var digitsFactor = Math.pow(10, digits || 1);
                       initialValue = initialValue.replace(escapeRegex(radixPoint), "."), isNaN(parseFloat(initialValue)) || (initialValue = (opts.roundingFN(parseFloat(initialValue) * digitsFactor) / digitsFactor).toFixed(digits)),
@@ -2665,16 +2901,6 @@
       function _classCallCheck(instance, Constructor) {
           if (!(instance instanceof Constructor)) throw new TypeError("Cannot call a class as a function");
       }
-      function _inherits(subClass, superClass) {
-          if ("function" != typeof superClass && null !== superClass) throw new TypeError("Super expression must either be null or a function");
-          subClass.prototype = Object.create(superClass && superClass.prototype, {
-              constructor: {
-                  value: subClass,
-                  writable: !0,
-                  configurable: !0
-              }
-          }), superClass && _setPrototypeOf(subClass, superClass);
-      }
       function _createSuper(Derived) {
           return function() {
               var Super = _getPrototypeOf(Derived), result;
@@ -2691,6 +2917,16 @@
       function _assertThisInitialized(self) {
           if (void 0 === self) throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
           return self;
+      }
+      function _inherits(subClass, superClass) {
+          if ("function" != typeof superClass && null !== superClass) throw new TypeError("Super expression must either be null or a function");
+          subClass.prototype = Object.create(superClass && superClass.prototype, {
+              constructor: {
+                  value: subClass,
+                  writable: !0,
+                  configurable: !0
+              }
+          }), superClass && _setPrototypeOf(subClass, superClass);
       }
       function _wrapNativeSuper(Class) {
           var _cache = "function" == typeof Map ? new Map() : void 0;
@@ -2723,14 +2959,14 @@
           }, _construct.apply(null, arguments);
       }
       function _isNativeReflectConstruct() {
-          if ("undefined" == typeof Reflect || !Reflect.construct) return !1;
-          if (Reflect.construct.sham) return !1;
-          if ("function" == typeof Proxy) return !0;
-          try {
-              return Date.prototype.toString.call(Reflect.construct(Date, [], function() {})),
-              !0;
-          } catch (e) {
-              return !1;
+          if ("undefined" != typeof Reflect && Reflect.construct && !Reflect.construct.sham) {
+              if ("function" == typeof Proxy) return 1;
+              try {
+                  return Date.prototype.toString.call(Reflect.construct(Date, [], function() {})),
+                  1;
+              } catch (e) {
+                  return;
+              }
           }
       }
       function _isNativeFunction(fn) {
@@ -2752,7 +2988,7 @@
           };
       }
       var document = _window.default.document;
-      if (document && document.head && document.head.attachShadow && void 0 === customElements.get("input-mask")) {
+      if (document && document.head && document.head.attachShadow && _window.default.customElements && void 0 === _window.default.customElements.get("input-mask")) {
           var InputmaskElement = function(_HTMLElement) {
               _inherits(InputmaskElement, _HTMLElement);
               var _super = _createSuper(InputmaskElement);
@@ -2769,7 +3005,7 @@
               }
               return InputmaskElement;
           }(_wrapNativeSuper(HTMLElement));
-          customElements.define("input-mask", InputmaskElement);
+          _window.default.customElements.define("input-mask", InputmaskElement);
       }
   } ], installedModules = {}, __webpack_require__.m = modules, __webpack_require__.c = installedModules,
   __webpack_require__.d = function(exports, name, getter) {
