@@ -146,15 +146,18 @@
             </p>
             <div class="feedback__form form">
               <form method="POST">
-                <label class="visually-hidden" for="name">Имя</label>
-                <input type="text" id="name" name="user-name" placeholder="Имя" required="">
-                <label class="visually-hidden" for="phone">Телефон</label>
-                <input type="tel" id="phone" name="user-phone" pattern="\+7\([0-9]{3}\)[0-9]{3}-[0-9]{2}-[0-9]{2}" placeholder="Телефон" required="">
-                <label class="visually-hidden" for="question">Ваш вопрос</label>
+                <label aria-label="Имя">
+                  <span class="visually-hidden">Имя</span>
+                  <input type="text" id="name" name="user-name" placeholder="Имя" required="">
+                </label>
+                <label aria-label="Телефон">
+                  <span class="visually-hidden">Телефон</span>
+                  <input type="tel" id="phone" name="user-phone" pattern="\+7\([0-9]{3}\)[0-9]{3}-[0-9]{2}-[0-9]{2}" placeholder="Телефон" required="">
+                </label>
                 <textarea id="question" name="user-question" placeholder="Ваш вопрос" required=""></textarea>
                 <button type="submit">Задать вопрос</button>
-                <input type="checkbox" id="agreement" name="user-agreement" checked="" required="">
-                <label for="agreement">
+                <label class="form__checkbox-label">
+                  <input type="checkbox" id="agreement" name="user-agreement" checked="" required="">
                   <svg class="form__icon" width="9" height="6">
                     <use xlink:href="img/sprite_auto.svg#icon-checkbox-on"></use>
                   </svg>
@@ -289,15 +292,18 @@
       </button>
       <div class="popup__form form">
         <form method="POST">
-          <label class="visually-hidden" for="name-popup">Имя</label>
-          <input type="text" id="name-popup" name="user-name" placeholder="Имя" required="">
-          <label class="visually-hidden" for="phone-popup">Телефон</label>
-          <input type="tel" id="phone-popup" name="user-phone" pattern="\+7\([0-9]{3}\)[0-9]{3}-[0-9]{2}-[0-9]{2}" placeholder="Телефон" required="">
-          <label class="visually-hidden" for="question-popup">Ваш вопрос</label>
+          <label aria-label="Имя">
+            <span class="visually-hidden">Имя</span>
+            <input type="text" id="name-popup" name="user-name" placeholder="Имя" required="">
+          </label>
+          <label aria-label="Телефон">
+            <span class="visually-hidden">Телефон</span>
+            <input type="tel" id="phone-popup" name="user-phone" pattern="\+7\([0-9]{3}\)[0-9]{3}-[0-9]{2}-[0-9]{2}" placeholder="Телефон" required="">
+          </label>
           <textarea id="question-popup" name="user-question" placeholder="Ваш вопрос" required=""></textarea>
           <button type="submit">Отправить</button>
-          <input type="checkbox" id="agreement-popup" name="user-agreement" checked="" required="">
-          <label for="agreement-popup">
+          <label class="form__checkbox-label">
+            <input type="checkbox" id="agreement-popup" name="user-agreement" checked="" required="">
             <svg class="form__icon" width="9" height="6">
               <use xlink:href="img/sprite_auto.svg#icon-checkbox-on"></use>
             </svg>
