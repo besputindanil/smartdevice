@@ -1,12 +1,9 @@
 .page-header {
+  display: flex;
+  align-items: center;
   max-width: 1411px;
   margin: 0 auto;
   padding: 34px 7px 34px 23px;
-}
-
-.page-header__wrapper {
-  display: flex;
-  align-items: center;
 }
 
 .page-header__logo {
@@ -70,11 +67,8 @@
 
 @media (max-width: $tablet-width) {
   .page-header {
-    padding: 18px 24px 5px 24px;
-  }
-
-  .page-header__wrapper {
     margin-bottom: 5px;
+    padding: 18px 24px 5px 24px;
   }
 
   .page-header__contacts {
