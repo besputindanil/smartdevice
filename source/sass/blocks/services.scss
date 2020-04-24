@@ -41,6 +41,8 @@
 
   display: block;
   min-height: 620px;
+  padding: 52px 44px;
+
 
   &--production {
     background-color: #7f7f7f;
@@ -100,8 +102,6 @@
 .services__text {
   display: inline-block;
   width: 170px;
-  margin-top: 52px;
-  margin-left: 44px;
 
   font-family: $roboto-condensed-font;
   font-size: 20px;
